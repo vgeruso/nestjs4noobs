@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://github.com/he4rt/4noobs" target="_blank">
-    <img src="images/header_4noobs.svg" />
+    <img src="src/images/header_4noobs.svg" />
   </a>
 </div>
 
@@ -11,7 +11,7 @@
 <h1 align="center">Nestjs4Noobs</h1>
 
 <h1 align="center">
-  <img src="images/logo-small-gradient.76616405.svg" alt="nestjs" width="120" />
+  <img src="src/images/logo-small-gradient.76616405.svg" alt="nestjs" width="120" />
 </h1>
 
 <p align="center">
@@ -32,8 +32,8 @@
 
 ## ROADMAP
 
-- [Introdução](/content/1-introducao.md)
-- [Primeiros passos](/content/2-primeiros-passos.md)
+- [Introdução](/src/content/1-introducao.md)
+- [Primeiros passos](/src/content/2-primeiros-passos.md)
 
 ## Como contribuir
 
@@ -47,13 +47,13 @@ Contribuições faz com que a comunidade cresca cada vez mais e seja um lugar in
 
 ## Autores
 
-- **Victor Geruso Gomes** - _Engenheiro de Software [Dev Backend]_ - [Twitter](https://x.com/vgeruso)
+- **Victor Geruso Gomes** - _Engenheiro de Software [Dev Backend]_ - **[Twitter](https://x.com/vgeruso)**
 ---
 
 <!--Footer-->
 
 <p align="center">
   <a href="https://github.com/he4rt/4noobs">
-    <img src="images/footer_4noobs.svg" width="380"/>
+    <img src="src/images/footer_4noobs.svg" width="380"/>
   </a>
 </p>

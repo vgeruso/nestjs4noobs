@@ -9,8 +9,8 @@ Por debaixo dos panos, o nosso famework umas como padrão o Express, mas pode se
 pré requisitos para o uso e instalação do Nest:
 
 1. Conhecimento basico em JavaScript e Node.js
-2. Node.js 20 ou maior
-3. Npm 10 ou maior
+2. Node.js >= 16
+3. Npm >= 8
 
 Existem diversas formas para iniciar um projeto Nest, mas o mais basico e utilizado, por ser mais prático, é usando o Nest CLI, para isso temos que instala-lo de forma global em nossa maquina com o seguinte comando:
 
@@ -26,7 +26,7 @@ nest new project-name
 
 O Nest CLI irá realizar uma pergunta basica de configuração relacionado ao gerenciador de pacotes que irá ser usado do por padrão aqui eu escolhi o npm mas fique a vontado para escolher o seu. Após a escolha o CLI irá fazer o trabalho de configurar e gerar todos os arquivos necessários para o funcionamento do projeto.
 
-![configure_nest](/images/configure_nest.png)
+![configure_nest](../images/configure_nest.png)
 
 Para dar um start no projeto criado basta executar:
 
@@ -37,9 +37,9 @@ npm run start:dev
 
 O sistema irá executar uma transpilação do TypeScript e excutar os endpoits criados imprimindo na tela os endpoints ativos:
 
-![start_nest](/images/start_nest.png)
+![start_nest](../images/start_nest.png)
 
 Agora basta acessar em seu navegador o [http://localhost:3000/](http://localhost:3000/) e verá que o projeto básico do NestJS está rodando em seu local.
 
 ---
-[Próximo >>](/content/2-primeiros-passos.md)
+[Próximo >>](./2-primeiros-passos.md)
