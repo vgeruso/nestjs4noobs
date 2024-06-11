@@ -8,14 +8,14 @@
 
 <!--Title-->
 
-<h1 align="center">Nestjs4Noobs</h1>
+<h1 align="center">NestJS4Noobs</h1>
 
 <h1 align="center">
   <img src="src/images/logo-small-gradient.76616405.svg" alt="nestjs" width="120" />
 </h1>
 
 <p align="center">
-  Um guia que irá ajudar iniciantes começar a estudar e se aprimorar no framework nestJS.
+  Um guia que irá ajudar iniciantes começar a estudar e se aprimorar no framework NestJS.
 </p>
 
 <p align="center">
@@ -41,7 +41,7 @@ Contribuições faz com que a comunidade cresca cada vez mais e seja um lugar in
 
 1. Realize o fork do projeto
 2. Crie uma branch com a nova feature (`git checkout -b feature/sua-feature`)
-3. realize o commite (`git coimmit -m 'sua mensagem de commit'`)
+3. realize o commit (`git coimmit -m 'sua mensagem de commit'`)
 4. Realize o push na branch (`git push origin feature/sua-feature`)
 5. Abra um Pull Request
 
