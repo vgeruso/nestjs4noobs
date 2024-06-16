@@ -1,8 +1,8 @@
 # Introdução
 
-O Nest de acordo com a documentação oficial, é um framework para contrução de aplicações Node.js do lado do servidor eficientes e escalonáveis. Usando JavaScript progressivo, é construido e possui suporte total a TypeScript, dando a liberdade também dos desenvolvedores usarem o JavaScript puro, combinando elementos de três paradigmas da programação, POO (Programação Orientada a Obijetos), PF (Programação funcional) e PFR (Programação funcional reativa).
+O Nest de acordo com a documentação oficial, é um framework para construção de aplicações Node.js do lado do servidor eficientes e escalonáveis. Usando JavaScript progressivo, é construido e possui suporte total a TypeScript, dando a liberdade também dos desenvolvedores usarem o JavaScript puro, combinando elementos de três paradigmas da programação, POO (Programação Orientada a Objetos), PF (Programação funcional) e PFR (Programação funcional reativa).
 
-Por debaixo dos panos, o nosso famework umas como padrão o Express, mas pode ser facilmente configurado para usar o Fastfy. Sendo inspirado no framework forntend Angular o nest fornece uma arquitetura de aplicativos pronta para uso, permitindo que os desenvolvedores criem sistemas altamente testaveis, escalaveis e de fácil manutenção.
+Por debaixo dos panos, o nosso framework usa como padrão o Express, mas pode ser facilmente configurado para usar o Fastfy. Sendo inspirado no framework frontend Angular o nest fornece uma arquitetura de aplicativos pronta para uso, permitindo que os desenvolvedores criem sistemas altamente testaveis, escalaveis e de fácil manutenção.
 
 ## Instalação da CLI
 
@@ -19,4 +19,4 @@ npm i -g @nestjs/cli
 ```
 
 ---
-[Próximo >>](./2-primeiros-passos.md)
+[<< Anterior](../../README.md) [Próximo >>](./2-primeiros-passos.md)
