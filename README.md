@@ -34,6 +34,7 @@
 
 - [Introdução](/src/content/1-introducao.md)
 - [Primeiros passos](/src/content/2-primeiros-passos.md)
+- [Controllers](/src/content/3-controllers.md)
 
 ## Como contribuir
 
