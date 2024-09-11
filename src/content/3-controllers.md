@@ -69,5 +69,79 @@ O object request representa a solicitação HTTP e tem como propriedades para st
 
 Para compatibilidade com tipagens em plataformas HTTP subjscentes (por exemplo, Express e Fastify), o nest fornece os decorators`@Res()` e `@Response()`. `@Res()` é simplesmente um alias para `@Response()`. Ambos expõem diretamente a interface do objeto da plataforma nativa subjacente `response`. Ao usá-los, deve-se importar as tipágens para a biblioteca subjscente (por exemplo, `@types/express`) para aproveitar om máximo. Observe que quando injetado o `@Res()` em `@Response()` um manipulador de método, o nest é colocado no modo específico da biblioteca para esse manipulador e se torna responsável por gerenciar a resposta. Ao fazer isso, deve ser emitido algum tipo de respostafazendo uma chamada no object `response` (por exemplo, `res.json(...)` ou `res.send(...)`), ou o servidor HTTP travará.
 
+## Recursos
+
+Anteriormente, definimos um endpoint para buscar o recurso users (rota `GET`). Normalmente, tembém queremos fornecer um endpoint que crie novos registros. Para isso, vamos criar o manipulador `POST`:
+
+```typescript
+import { Controller, Get, Post } from '@nestjs/common';
+
+@Controller('users')
+export class UsersController {
+  @Post()
+  create(): string {
+    return 'Esta ação adiciona um novo usuário'
+  }
+
+  @Get()
+  findAll(@Req() request: Request): string {
+    return 'Esta ação retorna todos os usuários';
+  }
+}
+```
+
+É simples assim. O nest fornece decorators para todos os métodos HTTP padrão `@Get()`, `@Post()`, `@Put()`, `@Delete()`, `@Patch()`, `@Options()` e `@Head()`. Além disso, `@All()` define um endpoint que manipula todos eles.
+
+## Curingas de rota
+
+Rotas baseadas em padrões também são suportadas. Por exemplo, o asterisco é usado como curinga e coreponderá a qualquer combinação de caracteres.
+
+```typescript
+@Get('ab*cd')
+findAll() {
+  return 'Esta rota usa um curinga';
+}
+```
+
+O `ab*cd` caminho da rota corresponderá a `abcd`, `ab_cd`, `abecd`, e assim por diante. Os caracteres `?`, `+`, `*` e `()` podem ser usados em um caminho de rota e são subconjuntos de suas contrapartes de expressão regular. O hífen (`-`) e o ponto (`.`) são interpretados literalmente por caminhos baseados em string.
+
+> Observação
+> Um curinga no meio da rota só é suportado pelo express.
+
+## Cabeçalhos
+
+Para especificar um cabeçalho de reposta personalizado, pode ser usado o decorator `@Header()` ou um object response específico da biblioteca (e chamar `res.header()` deretamente).
+
+```typescript
+@Post()
+@Header('Cache-Control', 'none')
+create() {
+  return 'Esta ação adiciona um novo usuário';
+}
+```
+
+## Redirecionamento
+
+Para redirecionar uma resposta para uma URL específica, você pode usar o decorator `@Redirect()` ou um object response específico da biblioteca (e chamar `res.redirect()` diretamente).
+
+`@Redirect()` recebe dois argumentos, `url` e `statusCode`, ambos são opcionais. o valor padrão de `statusCode` é `302` (`Found`) se omitido.
+
+```typescript
+@Get()
+@Redirect('https://nestjs.com', 301)
+```
+
+Os valores retornados substituirão quaisquer argumentos passados ao decorator `@Redirect()`. Por exemplo:
+
+```typescript
+@Get('docs')
+@Redirect('https://docs.nestjs.com', 302)
+getDocs(@Query('version') version) {
+  if(version && version === '5') {
+    return { url: 'https://docs.nestjs.com/v5/' }
+  }
+}
+```
+
 ---
 [<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
