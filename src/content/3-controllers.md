@@ -143,5 +143,29 @@ getDocs(@Query('version') version) {
 }
 ```
 
+## Parametros de rota
+
+Rotas com caminhos estáticos não funcionarão quando você precisar aceitar dados dinamicos como parte da solicitação (por exemplo, `GET /users/1` para obter usuário com o id `1`). Para definir rotas com parametros, pode-se adicionar tokens de parametro de rota no caminho da rota para capturar o valor dinamico naquela posição na URL da solicitação. O token de parametro de rota no `@Get()` exemplo de decorator abaixo demonstra esse uso. Prametros de rota declarados dessa forma podem ser acessados usando o decorator `@Param()`, que deve ser adicionado à assinatura do método.
+
+```typescript
+@Get(':id')
+findOne(@Param() params: any): string {
+  console.log(prams.id);
+  return `Esta ação retorna um #${params.id} usuário`;
+}
+```
+
+O decorator `@Param()` é usado para capturar os parametros para o método (`params` no exemplo acima), e retorna os parametros de rota disponíveis como propriedades desse parametro de método. Como foi visto no codigo acima, pode se acessar o parametro `id` referenciando `params.id`. Você também prde passar um token de parametro especifico para o decorator e então referenciar o mesmo diretamente pelo nome no corpo do método.
+
+```typescript
+@Get(':id')
+findOne(@Param('id') id: string): string {
+  return `Esta ação retorna um #${id} usuário`;
+}
+```
+
+> Dica
+> Importar `Param` do pacote `@nestjs/common`
+
 ---
 [<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
