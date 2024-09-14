@@ -164,8 +164,37 @@ findOne(@Param('id') id: string): string {
 }
 ```
 
-> Dica
+> DICA
 > Importar `Param` do pacote `@nestjs/common`
+
+## Roteamento de subdomínio
+
+O decorator `@Controller` pode ter a opção `host` e exigir que o host HTTP das solicitações recebidas correspondam a algum valor expecifico.
+
+```typescript
+@Controller({ host: 'admin.example.com' })
+export class AdminController {
+  @Get()
+  index(): string {
+    return 'Admin page';
+  }
+}
+```
+
+> AVISO IMPORTANTE
+> Como o Fastify não oferece suporte para roteadores aninhados, o Express deve ser usadi para usar roteamento do subdomínio.
+
+Semelhante a uma rota `path`, a opção `hosts` pode usar tokens para capturar o valor dinâmico naquela posição no nome do host. O token de parametro do host no decorator `@Controller()` no exemplo abaixo demonstra esse uso. Os parametros do host declarados dessa forma podem ser acessados usando o decorator `@HostParam()`, que deve ser adicionado à assinatura do método.
+
+```typescript
+@Controller({ host: ':account.example.com' })
+export class AccountController {
+  @Get()
+  getInfo(@HostParam('account') account: string) {
+    return account;
+  }
+}
+```
 
 ---
 [<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
