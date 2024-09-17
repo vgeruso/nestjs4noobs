@@ -2,16 +2,18 @@
 
 Os controllers são classes responsáveis por receber solicitações e retornar respostas ao cliente atrevés do protocolo `HTTP`.
 
+O `HTTP` é um protocolo de camada de aplicação que server para comunicação entre navegadores e servidores web, mais detalhes sobre este protocolo recomendo acessar [MDN web docs](https://developer.mozilla.org/pt-BR/docs/Web/HTTP).
+
 ![controller_scheme](../images/Controllers_1.png)
 > Imagem tirada da documentação oficial
 
-O mecanismo de roteamento gerencía qual controller recebe quais solicitações.
+O mecanismo de roteamento gerencia qual controller recebe quais solicitações.
 
-Para criar um controller básico utilizamos classes e decorators. os Decorators realizam a função de asociação das classes à metadados necessários que permitem que o Nest crie um mapeamento que vincule o as solicitações aos seus devidos controllers.
+Para criar um controller básico utilizamos classes e decorators. os Decorators realizam a função de associação das classes à metadados necessários que permitem que o Nest crie um mapeamento que vincule as solicitações aos seus devidos controllers.
 
 ## Roteamento
 
-No exemplo a seguir usamos o decorator `@Controller()` ele é necessário para definir o controller básico do módulo, nele especificaremos um prefixo de caminho de rota opcional no caso `user`. O prefixo usado no decorator permite o agurpamento facilitado de um conjunto de rotas minimizando condigos repetitivos. Por exemplo ao indicarmos o prefixo estamos indicando que toda a rota do controller usará o prefixo `/user` isso fará que todas as rotas do módulo User ao serem chamadas tenha o padrão `/user/[rota]` evitando que repitamos esse prefixo todas as vezes que criarmos uma nova rota.
+No exemplo a seguir usamos o decorator `@Controller()` ele é necessário para definir o controller básico do módulo, nele especificaremos um prefixo de caminho de rota opcional no caso `user`. O prefixo usado no decorator permite o agrupamento facilitado de um conjunto de rotas minimizando códigos repetitivos. Por exemplo ao indicarmos o prefixo estamos indicando que toda a rota do controller usará o prefixo `/user` isso fará que todas as rotas do módulo User ao serem chamadas tenha o padrão `/user/[rota]` evitando a redundância desse prefixo todas às vezes que criarmos uma nova rota.
 
 ```typescript
 import { Controller, Get } from '@nestjs/common';
@@ -25,19 +27,19 @@ export class UserController {
 }
 ```
 
-O decorator `@Get()` indica o metodo HTTP que corresponde aquela chamada especifica, indica ao Nest a criação do endpoint no qual corresponde ao metodo HTTP e ao caminho da rota. A rota para um manipulador é determinado pela concatenação do do prefixo indicado no decorator `@Controller()` e qual quer caminho especificado no decorator do metodo seja ele `GET`, `POST`, `PUT`, `PATH` ou `DELETE`.
+O decorator `@Get()` indica o método HTTP que corresponde aquela chamada especifica, indica ao Nest a criação do endpoint no qual corresponde ao verbo HTTP e ao caminho da rota. A rota para um manipulador é determinado pela concatenação do prefixo indicado no decorator `@Controller()` e qualquer caminho especificado no decorator do metodo seja ele `GET`, `POST`, `PUT`, `PATCH` ou `DELETE`.
 
-No exemplo como foi declarado um prefixo `user` e não foi adicionado nenhuma informação no caminho do metodo, o Nest mapeará como `GET /user` para cessar o metodo index declarado. Conforme mencionado, caso seja adicionado ao metodo algum informação do caminho por exemplo `@Get('name')` será produzido um mapeamento de rota como `GET /user/name`.
+No exemplo como foi declarado um prefixo `user` e não foi adicionado nenhuma informação no caminho do método, o Nest mapeará como `GET /user` para acessar o metodo index declarado. Conforme mencionado, caso seja adicionado ao metodo alguma informação do caminho, por exemplo: `@Get('name')` será produzido um mapeamento de rota como `GET /user/name`.
 
-No exemplo quando a solicitação GET é feita para o edpoint, o Nest roteia a solicitação para nosso método definido como `index()`. O nome do método aqui é completamente arbitrário, obviamente é necessário declarar um método ao gerar uma rota, mas o Nest não atribui nenhum significado a o nome escolhido.
+No exemplo quando a solicitação GET é feita para o endpoint, o Nest roteia a solicitação para nosso método definido como `index()`. O nome do método aqui é completamente arbitrário, obviamente é necessário declarar um método ao gerar uma rota, mas o Nest não atribui nenhum significado ao nome escolhido.
 
-Este método retorna um status `200` e a resposta associada, que nesse caso é apena uma string `Essa ação retorna todos os usuários`. Por padrão o Nest trata todo os retornos verificando o tipo, quando as funções retornam como resposta um objeto ou um array JavaScript esse retorno será serializado automaticamente para JSON, mas quando é retornado um tipo primitivo - por exemplo `string`, `number`, `boolean` - o Nest enviará apenas o valor sem tentar serealizá-lo simplificando o tratamento da resposta, para nós basta retornar o valor, o nest cuida do resto. Além disso ele também retorna o código de status que sempre é padronizado para `200` exeto em metodos `POST` que usam `201`.
+Este método retorna um status `200` e a resposta associada, que nesse caso é apenas uma string `Essa ação retorna todos os usuários`. Por padrão o Nest trata todos os retornos verificando o tipo, quando as funções retornam como resposta um objeto ou um array JavaScript esse retorno será serializado automaticamente para JSON, mas quando é retornado um tipo primitivo - por exemplo `string`, `number`, `boolean` - o Nest enviará apenas o valor sem tentar serializá-lo simplificando o tratamento da resposta, para nós basta retornar o valor, o Nest cuida do resto. Além disso, ele também retorna o código de status que sempre é padronizado para `200` exceto em métodos `POST` que usam `201`.
 
-Este é o comportamento padrão no nest, mas o framework abre a possibilidade de manipular os métodos e retornos através de bibliotecas especificas configuradas como por exemplo o express que pode ser injetado usando o decorator `@Res()` na assinatura do método (por exemplo, `findAll(@Res() response)`). Com esse recurso obtemos a capacidade de usar métodos de manipulção de resposta nativos expostos. Por exemplo como express pode ser construídas respostas usando o código `response.status(200).send()`.
+Este é o comportamento padrão no Nest, mas o framework abre a possibilidade de manipular os métodos e retornos através de bibliotecas específicas configuradas como, por exemplo o Express que pode ser injetado usando o decorator `@Res()` na assinatura do método (por exemplo, `findAll(@Res() response)`). Com esse recurso obtemos a capacidade de usar métodos de manipulação de resposta nativos expostos. Por exemplo, como o Express pode ser construídas respostas usando o código `response.status(200).send()`.
 
 ## Object Request
 
-Os manipuladores geralmente precisam acessar os detalhes do request do cliente. O Nest fornece acesso ao objeto de solicitação da plataforma subjscente (Express por padrão). Podendo acessar o objeto de solicitação instruindo o nest a injetá-lo adicionado o decorator `@Req()` à assinatura do manipulador.
+Os manipuladores geralmente precisam acessar os detalhes do request do cliente. O Nest fornece acesso ao objeto de solicitação da plataforma subjacente (Express por padrão). Podendo acessar o objeto de solicitação instruindo o Nest a injetá-lo adicionando o decorator `@Req()` à assinatura do manipulador.
 
 ```typescript
 import {  Controller, Get, Req } from '@nestjs/common';
@@ -52,9 +54,9 @@ export class UsersController {
 }
 ```
 
-O object request representa a solicitação HTTP e tem como propriedades para string de consulta da solicitação, parâmetros, cabeçalhos e corpo. Na maioria dos casos, não é necessário pegar essas propriedades manualmente. Podemos usar decorators dedicados, como `@Body()` ou `@Query()`, que estão disponíveis prontos para uso. Abaixo está uma lista dos decorators fornecidos e os objetivos especificos da plataforma simples que eles representam.
+O object request representa a solicitação HTTP e tem como propriedades para string de consulta da solicitação, parâmetros, cabeçalhos e corpo. Na maioria dos casos, não é necessário pegar essas propriedades manualmente. Podemos usar decorators dedicados, como `@Body()` ou `@Query()`, que estão disponíveis prontos para uso. Abaixo está uma lista dos decorators fornecidos e os objetivos específicos da plataforma simples que eles representam.
 
-| Decorator                | representação                      |
+| Decorator                | Representação                      |
 | ------------------------ | ---------------------------------- |
 | `@Request()`, `@Req()`   | `req`                              |
 | `@Response()`, `@Res()*` | `res`                              |
@@ -67,7 +69,7 @@ O object request representa a solicitação HTTP e tem como propriedades para st
 | `@Ip()`                  | `req.ip`                           |
 | `@HostParam()`           | `req.hosts`                        |
 
-Para compatibilidade com tipagens em plataformas HTTP subjscentes (por exemplo, Express e Fastify), o nest fornece os decorators`@Res()` e `@Response()`. `@Res()` é simplesmente um alias para `@Response()`. Ambos expõem diretamente a interface do objeto da plataforma nativa subjacente `response`. Ao usá-los, deve-se importar as tipágens para a biblioteca subjscente (por exemplo, `@types/express`) para aproveitar om máximo. Observe que quando injetado o `@Res()` em `@Response()` um manipulador de método, o nest é colocado no modo específico da biblioteca para esse manipulador e se torna responsável por gerenciar a resposta. Ao fazer isso, deve ser emitido algum tipo de respostafazendo uma chamada no object `response` (por exemplo, `res.json(...)` ou `res.send(...)`), ou o servidor HTTP travará.
+Para compatibilidade com tipagens em plataformas HTTP subjacentes (por exemplo, Express e Fastify), o Nest fornece os decorators `@Res()` e `@Response()`. `@Res()` é simplesmente um alias para `@Response()`. Ambos expõem diretamente a interface do objeto da plataforma nativa subjacente `response`. Ao usá-los, deve-se importar as tipagens para a biblioteca subjacente (por exemplo, `@types/express`) para aproveitar ao máximo. Observe que quando injetado o `@Res()` em `@Response()` um manipulador de método, o Nest é colocado no modo específico da biblioteca para esse manipulador e se torna responsável por gerenciar a resposta. Ao fazer isso, deve ser emitido algum tipo de resposta fazendo uma chamada no object `response` (por exemplo, `res.json(...)` ou `res.send(...)`), ou o servidor HTTP travará.
 
 ## Recursos
 
@@ -90,11 +92,11 @@ export class UsersController {
 }
 ```
 
-É simples assim. O nest fornece decorators para todos os métodos HTTP padrão `@Get()`, `@Post()`, `@Put()`, `@Delete()`, `@Patch()`, `@Options()` e `@Head()`. Além disso, `@All()` define um endpoint que manipula todos eles.
+É simples assim. O Nest fornece decorators para todos os métodos HTTP padrão `@Get()`, `@Post()`, `@Put()`, `@Delete()`, `@Patch()`, `@Options()` e `@Head()`. Além disso, `@All()` define um endpoint que manipula todos eles.
 
 ## Curingas de rota
 
-Rotas baseadas em padrões também são suportadas. Por exemplo, o asterisco é usado como curinga e coreponderá a qualquer combinação de caracteres.
+Rotas baseadas em padrões também são suportadas. Por exemplo, o asterisco é usado como curinga e corresponderá a qualquer combinação de caracteres.
 
 ```typescript
 @Get('ab*cd')
@@ -106,11 +108,11 @@ findAll() {
 O `ab*cd` caminho da rota corresponderá a `abcd`, `ab_cd`, `abecd`, e assim por diante. Os caracteres `?`, `+`, `*` e `()` podem ser usados em um caminho de rota e são subconjuntos de suas contrapartes de expressão regular. O hífen (`-`) e o ponto (`.`) são interpretados literalmente por caminhos baseados em string.
 
 > Observação
-> Um curinga no meio da rota só é suportado pelo express.
+> Um curinga no meio da rota só é suportado pelo Express.
 
 ## Cabeçalhos
 
-Para especificar um cabeçalho de reposta personalizado, pode ser usado o decorator `@Header()` ou um object response específico da biblioteca (e chamar `res.header()` deretamente).
+Para especificar um cabeçalho de resposta personalizado, pode ser usado o decorator `@Header()` ou um object response específico da biblioteca (e chamar `res.header()` diretamente).
 
 ```typescript
 @Post()
@@ -143,9 +145,9 @@ getDocs(@Query('version') version) {
 }
 ```
 
-## Parametros de rota
+## Parâmetros de rota
 
-Rotas com caminhos estáticos não funcionarão quando você precisar aceitar dados dinamicos como parte da solicitação (por exemplo, `GET /users/1` para obter usuário com o id `1`). Para definir rotas com parametros, pode-se adicionar tokens de parametro de rota no caminho da rota para capturar o valor dinamico naquela posição na URL da solicitação. O token de parametro de rota no `@Get()` exemplo de decorator abaixo demonstra esse uso. Prametros de rota declarados dessa forma podem ser acessados usando o decorator `@Param()`, que deve ser adicionado à assinatura do método.
+Rotas com caminhos estáticos não funcionarão quando você precisar aceitar dados dinâmicos como parte da solicitação (por exemplo, `GET /users/1` para obter usuário com o id `1`). Para definir rotas com parâmetros, pode-se adicionar tokens de parâmetro de rota no caminho da rota para capturar o valor dinâmico naquela posição na URL da solicitação. O token de parâmetro de rota no `@Get()` exemplo de decorator abaixo demonstra esse uso. Parâmetros de rota declarados dessa forma podem ser acessados usando o decorator `@Param()`, que deve ser adicionado à assinatura do método.
 
 ```typescript
 @Get(':id')
@@ -155,7 +157,7 @@ findOne(@Param() params: any): string {
 }
 ```
 
-O decorator `@Param()` é usado para capturar os parametros para o método (`params` no exemplo acima), e retorna os parametros de rota disponíveis como propriedades desse parametro de método. Como foi visto no codigo acima, pode se acessar o parametro `id` referenciando `params.id`. Você também prde passar um token de parametro especifico para o decorator e então referenciar o mesmo diretamente pelo nome no corpo do método.
+O decorator `@Param()` é usado para capturar os parâmetros para o método (`params` no exemplo acima), e retorna os parâmetros de rota disponíveis como propriedades desse parâmetro de método. Como foi visto no código acima, pode se acessar o parâmetro `id` referenciando `params.id`. Você também pode passar um token de parâmetro específico para o decorator e então referenciar o mesmo diretamente pelo nome no corpo do método.
 
 ```typescript
 @Get(':id')
@@ -169,7 +171,7 @@ findOne(@Param('id') id: string): string {
 
 ## Roteamento de subdomínio
 
-O decorator `@Controller` pode ter a opção `host` e exigir que o host HTTP das solicitações recebidas correspondam a algum valor expecifico.
+O decorator `@Controller` pode ter a opção `host` e exigir que o host HTTP das solicitações recebidas correspondam à algum valor específico.
 
 ```typescript
 @Controller({ host: 'admin.example.com' })
@@ -182,9 +184,9 @@ export class AdminController {
 ```
 
 > AVISO IMPORTANTE
-> Como o Fastify não oferece suporte para roteadores aninhados, o Express deve ser usadi para usar roteamento do subdomínio.
+> Como o Fastify não oferece suporte para roteadores aninhados, o Express deve ser usado para usar roteamento do subdomínio.
 
-Semelhante a uma rota `path`, a opção `hosts` pode usar tokens para capturar o valor dinâmico naquela posição no nome do host. O token de parametro do host no decorator `@Controller()` no exemplo abaixo demonstra esse uso. Os parametros do host declarados dessa forma podem ser acessados usando o decorator `@HostParam()`, que deve ser adicionado à assinatura do método.
+Semelhante a uma rota `path`, a opção `hosts` pode usar tokens para capturar o valor dinâmico naquela posição no nome do host. O token de parâmetro do host no decorator `@Controller()` no exemplo abaixo demonstra esse uso. Os parâmetros do host declarados dessa forma podem ser acessados usando o decorator `@HostParam()`, que deve ser adicionado à assinatura do método.
 
 ```typescript
 @Controller({ host: ':account.example.com' })
