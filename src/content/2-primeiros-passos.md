@@ -42,7 +42,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-Para criar uma instância do aplicativo Nest, a classe principal `NestFactory` que expõe métodos estáticos e permitem a criação da instancia do aplicativo. O método `create()` retorna um objeto que preenche a interface `INestApplication`. Este objeto fornece um conjunto de métodos que serão descritos nos próximos capítulos. No exemplo acima, simplesmente o `HTTP` é iniciado e permite que o aplicativo aguarde solicitações de entrada.
+Para criar uma instância do aplicativo Nest, a classe principal `NestFactory` que expõe métodos estáticos e permitem a criação da instância do aplicativo. O método `create()` retorna um objeto que preenche a interface `INestApplication`. Este objeto fornece um conjunto de métodos que serão descritos nos próximos capítulos. No exemplo acima, simplesmente o `HTTP` é iniciado e permite que o aplicativo aguarde solicitações de entrada.
 
 Para dar um start no projeto criado basta executar:
 
@@ -65,13 +65,13 @@ cd project-name
 pnpm start
 ```
 
-O sistema irá executar uma transpilação do TypeScript e excutar os endpoints criados imprimindo na tela os ativos:
+O sistema irá executar uma transpilação do TypeScript e mapear os endpoints criados imprimindo na tela os ativos:
 
 ![start_nest](../images/start_nest.png)
 
-Agora basta acessar em seu navegador ou em algum cliente REST API de sua preferencia o [http://localhost:3000/](http://localhost:3000/), você deverá ver a mensagem `Hello World!` na tela.
+Agora basta acessar em seu navegador ou em algum cliente REST API de sua preferência o [http://localhost:3000/](http://localhost:3000/), você deverá ver a mensagem `Hello World!` na tela.
 
-Para Executar a aplicação em modo de obsevação (watch mode) recarregando a mesma após qualquer alteração no código, basta executar `npm start:dev` ou `yarn start:dev` ou `pnpm start:dev` no terminal, esse modo auxilia o desenvolvedor e aumenta a produtividade.
+Para executar a aplicação em modo de observação (watch mode) recarregando a mesma após qualquer alteração no código, basta executar `npm start:dev` ou `yarn start:dev` ou `pnpm start:dev` no terminal, esse modo auxilia o desenvolvedor e aumenta a produtividade.
 
 ---
 [<< Anterior](./1-introducao.md) [Próximo >>](./3-controllers.md)

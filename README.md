@@ -15,7 +15,7 @@
 </h1>
 
 <p align="center">
-  Um guia que irá ajudar iniciantes começar a estudar e se aprimorar no framework NestJS.
+  Um guia que irá ajudar iniciantes a começarem a estudar e se aprimorar no framework back-end NestJS.
 </p>
 
 <p align="center">
@@ -38,11 +38,11 @@
 
 ## Como contribuir
 
-Contribuições faz com que a comunidade cresca cada vez mais e seja um lugar incrivel para aprender, inspirar e criar. Toda e qualquer tipo de contribuição são **extremamente apreciadas**
+Contribuições faz com que a comunidade cresça cada vez mais e seja um lugar incrível para aprender, inspirar e criar. Toda e qualquer contribuição é **extremamente apreciada**.
 
 1. Realize o fork do projeto
 2. Crie uma branch com a nova feature (`git checkout -b feature/sua-feature`)
-3. realize o commit (`git coimmit -m 'sua mensagem de commit'`)
+3. Realize o commit (`git coimmit -m 'sua mensagem de commit'`)
 4. Realize o push na branch (`git push origin feature/sua-feature`)
 5. Abra um Pull Request
 

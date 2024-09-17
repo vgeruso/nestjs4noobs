@@ -2,14 +2,14 @@
 
 Os controllers são classes responsáveis por receber solicitações e retornar respostas ao cliente atrevés do protocolo `HTTP`.
 
-O `HTTP` é um protocolo de camada de aplicação que server para comunicação entre navegadores e servidores web, mais detalhes sobre este protocolo recomendo acessar [MDN web docs](https://developer.mozilla.org/pt-BR/docs/Web/HTTP).
+O `HTTP` é um protocolo de camada de aplicação que serve para comunicação entre navegadores e servidores web, mais detalhes sobre este protocolo recomendo acessar [MDN web docs](https://developer.mozilla.org/pt-BR/docs/Web/HTTP).
 
 ![controller_scheme](../images/Controllers_1.png)
 > Imagem tirada da documentação oficial
 
 O mecanismo de roteamento gerencia qual controller recebe quais solicitações.
 
-Para criar um controller básico utilizamos classes e decorators. os Decorators realizam a função de associação das classes à metadados necessários que permitem que o Nest crie um mapeamento que vincule as solicitações aos seus devidos controllers.
+Para criar um controller básico utilizamos classes e decorators. Os decorators realizam a função de associação das classes à metadados necessários que permitem que o Nest crie um mapeamento que vincule às solicitações aos seus devidos controllers.
 
 ## Roteamento
 
@@ -27,9 +27,9 @@ export class UserController {
 }
 ```
 
-O decorator `@Get()` indica o método HTTP que corresponde aquela chamada especifica, indica ao Nest a criação do endpoint no qual corresponde ao verbo HTTP e ao caminho da rota. A rota para um manipulador é determinado pela concatenação do prefixo indicado no decorator `@Controller()` e qualquer caminho especificado no decorator do metodo seja ele `GET`, `POST`, `PUT`, `PATCH` ou `DELETE`.
+O decorator `@Get()` indica o método HTTP que corresponde aquela chamada específica, indica ao Nest a criação do endpoint no qual corresponde ao verbo HTTP e ao caminho da rota. A rota para um manipulador é determinado pela concatenação do prefixo indicado no decorator `@Controller()` e qualquer caminho especificado no decorator do método seja ele `GET`, `POST`, `PUT`, `PATCH` ou `DELETE`.
 
-No exemplo como foi declarado um prefixo `user` e não foi adicionado nenhuma informação no caminho do método, o Nest mapeará como `GET /user` para acessar o metodo index declarado. Conforme mencionado, caso seja adicionado ao metodo alguma informação do caminho, por exemplo: `@Get('name')` será produzido um mapeamento de rota como `GET /user/name`.
+No exemplo como foi declarado um prefixo `user` e não foi adicionado nenhuma informação no caminho do método, o Nest mapeará como `GET /user` para acessar o método index declarado. Conforme mencionado, caso seja adicionado ao método alguma informação do caminho, por exemplo: `@Get('name')` será produzido um mapeamento de rota como `GET /user/name`.
 
 No exemplo quando a solicitação GET é feita para o endpoint, o Nest roteia a solicitação para nosso método definido como `index()`. O nome do método aqui é completamente arbitrário, obviamente é necessário declarar um método ao gerar uma rota, mas o Nest não atribui nenhum significado ao nome escolhido.
 
@@ -69,11 +69,11 @@ O object request representa a solicitação HTTP e tem como propriedades para st
 | `@Ip()`                  | `req.ip`                           |
 | `@HostParam()`           | `req.hosts`                        |
 
-Para compatibilidade com tipagens em plataformas HTTP subjacentes (por exemplo, Express e Fastify), o Nest fornece os decorators `@Res()` e `@Response()`. `@Res()` é simplesmente um alias para `@Response()`. Ambos expõem diretamente a interface do objeto da plataforma nativa subjacente `response`. Ao usá-los, deve-se importar as tipagens para a biblioteca subjacente (por exemplo, `@types/express`) para aproveitar ao máximo. Observe que quando injetado o `@Res()` em `@Response()` um manipulador de método, o Nest é colocado no modo específico da biblioteca para esse manipulador e se torna responsável por gerenciar a resposta. Ao fazer isso, deve ser emitido algum tipo de resposta fazendo uma chamada no object `response` (por exemplo, `res.json(...)` ou `res.send(...)`), ou o servidor HTTP travará.
+Para compatibilidade com tipagens em plataformas HTTP subjacentes (por exemplo, Express e Fastify), o Nest fornece os decorators `@Res()` e `@Response()`. `@Res()` é simplesmente um alias para `@Response()`. Ambos expõem diretamente a interface do objeto da plataforma nativa `response`. Ao usá-los, deve-se importar as tipagens para a biblioteca implícitas (por exemplo, `@types/express`) para aproveitar ao máximo. Observe que quando injetado o `@Res()` em `@Response()` um manipulador de método, o Nest é colocado no modo específico da biblioteca para esse manipulador e se torna responsável por gerenciar a resposta. Ao fazer isso, deve ser emitido algum tipo de resposta fazendo uma chamada no object `response` (por exemplo, `res.json(...)` ou `res.send(...)`), ou o servidor HTTP travará.
 
 ## Recursos
 
-Anteriormente, definimos um endpoint para buscar o recurso users (rota `GET`). Normalmente, tembém queremos fornecer um endpoint que crie novos registros. Para isso, vamos criar o manipulador `POST`:
+Anteriormente, definimos um endpoint para buscar o recurso users (rota `GET`). Normalmente, também queremos fornecer um endpoint que crie novos registros. Para isso, vamos criar o manipulador `POST`:
 
 ```typescript
 import { Controller, Get, Post } from '@nestjs/common';
@@ -152,7 +152,7 @@ Rotas com caminhos estáticos não funcionarão quando você precisar aceitar da
 ```typescript
 @Get(':id')
 findOne(@Param() params: any): string {
-  console.log(prams.id);
+  console.log(params.id);
   return `Esta ação retorna um #${params.id} usuário`;
 }
 ```
