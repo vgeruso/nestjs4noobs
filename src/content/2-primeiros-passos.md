@@ -71,7 +71,7 @@ O sistema irá executar uma transpilação do TypeScript e excutar os endpoints 
 
 Agora basta acessar em seu navegador ou em algum cliente REST API de sua preferencia o [http://localhost:3000/](http://localhost:3000/), você deverá ver a mensagem `Hello World!` na tela.
 
-Para Executar a aplicação em modo de obsevação (watch mode) recarregando a mesma após qualquer alteração no código, basta executar `npm start:dev` no terminal, esse modo auxilia o desenvolvedor e aumenta a produtividade.
+Para Executar a aplicação em modo de obsevação (watch mode) recarregando a mesma após qualquer alteração no código, basta executar `npm start:dev` ou `yarn start:dev` ou `pnpm start:dev` no terminal, esse modo auxilia o desenvolvedor e aumenta a produtividade.
 
 ---
 [<< Anterior](./1-introducao.md) [Próximo >>](./3-controllers.md)

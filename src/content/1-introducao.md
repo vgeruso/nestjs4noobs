@@ -18,9 +18,13 @@ Existem diversas formas para iniciar um projeto NestJS, mas o mais básico e uti
 npm i -g @nestjs/cli
 ```
 
+ou
+
 ```bash
 yarn global @nestjs/cli
 ```
+
+ou
 
 ```bash
 pnpm add -g @nestjs/cli
