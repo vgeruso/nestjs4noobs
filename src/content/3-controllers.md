@@ -1,6 +1,6 @@
 # Controllers
 
-Os controllers são classes responsáveis por receber solicitações e retornar respostas ao cliente atrevés do protocolo `HTTP`.
+Os controllers são classes responsáveis por receber solicitações e retornar respostas ao cliente através do protocolo `HTTP`.
 
 O `HTTP` é um protocolo de camada de aplicação que serve para comunicação entre navegadores e servidores web, mais detalhes sobre este protocolo recomendo acessar [MDN web docs](https://developer.mozilla.org/pt-BR/docs/Web/HTTP).
 
