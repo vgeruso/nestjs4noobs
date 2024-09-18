@@ -198,5 +198,29 @@ export class AccountController {
 }
 ```
 
+## Assincronicidade
+
+No JavaScript moderno a extração de dados é, em sua maioria, assíncrona. É por isso que o Nest suporta e funciona bem com funções `async`.
+
+Toda função async tem que retornar um `Promise`. Isso significa que pode retornar um valor diferido que o Nest será capaz de resolver sozinho. Vamos ver um exemplo disso:
+
+```typescript
+@Get()
+async findAll(): Promise<any[]> {
+  return [];
+}
+```
+
+O código acima é totalmente válido. Além disso, os manipuladores de rota do Nest são ainda mais poderosos por serem capazes de retornar fluxoz observáveis RxJS. O Nest assinará automaticamente a fonte abaixo e pegará o último valor emitido (assim que o fluxo for concluído).
+
+```typescript
+@Get()
+findAll(): Observable<any[]> {
+  return of([]);
+}
+```
+
+Ambas as abordagens acima funcionam e podem ser usadas de forma que melhor se adequem às necessidades do projeto.
+
 ---
 [<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
