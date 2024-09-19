@@ -202,7 +202,7 @@ export class AccountController {
 
 No JavaScript moderno a extração de dados é, em sua maioria, assíncrona. É por isso que o Nest suporta e funciona bem com funções `async`.
 
-Toda função async tem que retornar um `Promise`. Isso significa que pode retornar um valor diferido que o Nest será capaz de resolver sozinho. Vamos ver um exemplo disso:
+Toda função async tem que retornar uma `Promise`. Isso significa que pode retornar um valor diferido que o Nest será capaz de resolver sozinho. Vamos ver um exemplo disso:
 
 ```typescript
 @Get()
@@ -211,7 +211,7 @@ async findAll(): Promise<any[]> {
 }
 ```
 
-O código acima é totalmente válido. Além disso, os manipuladores de rota do Nest são ainda mais poderosos por serem capazes de retornar fluxoz observáveis RxJS. O Nest assinará automaticamente a fonte abaixo e pegará o último valor emitido (assim que o fluxo for concluído).
+O código acima é totalmente válido. Além disso, os manipuladores de rota do Nest são ainda mais poderosos por serem capazes de retornar fluxos observáveis RxJS. O Nest assinará automaticamente a fonte abaixo e pegará o último valor emitido (assim que o fluxo for concluído).
 
 ```typescript
 @Get()
@@ -221,6 +221,32 @@ findAll(): Observable<any[]> {
 ```
 
 Ambas as abordagens acima funcionam e podem ser usadas de forma que melhor se adequem às necessidades do projeto.
+
+## Solicitação de payloads
+
+No exemplo anterior do manipulador de rota `POST` não recebeu nenhum parâmetro de cliente. Vamos consertar isso adicionando o decorator `@Body()`.
+
+Ma primeiro (Se usar o TypeScript), pricisa-se determinar o DTO (Data Transfer Object). Um DTO é um objeto que define como os dados serão enviados pela rede. Poderíamos determinar o DTO usando interfaces TS ou por classes simples. Curiosamente é recomendado usar classes. Pos as classes são parte do padrão JS ES6 e, portanto, são preservadas como entidades reais na compilação. Por outro lado, como as interfaces TypeScript são removidas durante a transpilação, o Nest não pode se referir a elas em tempo de execução. Isso é importante porque recursos como Pipes permitem possibilidades adicionais quando tem acesso ao metatipo da varável em tempo de execução.
+
+Criando a classe `CreateUserDto`:
+
+```typescript
+export class CreateUserDto {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+}
+```
+
+Ela tem apenas 4 propriedades básicas. Depois disso, pode-se usar o DTO recém-criado dentro do `UserController`:
+
+```typescript
+@Post()
+async create(@Body() createUserDto: CreateUserDto) {
+  return `Essa ação adiciona o usuário: ${createtUserDto.name}`
+}
+```
 
 ---
 [<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
