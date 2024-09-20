@@ -343,4 +343,4 @@ findAll(@Res({ passthrough: true }) res: Response) {
 Agora você pode interagir com o object response nativo (por exemplo, definir cookies ou cabeçalhos dependendo de certas condições), mas deixe o resto para o framework.
 
 ---
-[<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
+[<< Anterior](./2-primeiros-passos.md)
