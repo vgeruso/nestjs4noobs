@@ -248,5 +248,99 @@ async create(@Body() createUserDto: CreateUserDto) {
 }
 ```
 
+## Exemplo completo do controller
+
+Abaixo está um exemplo completo de um controller que faz uso de vários decorators disponíveis na pinlioteca base do Nest. Este controller expõe alguns métodos para acessar e manipular dados internos.
+
+```typescript
+import { Controller, Get, Query, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto, ListAllEntities } from './dto';
+
+@Controller('users')
+export class UsersController {
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return 'Esta aÇ~ao adiciona um novo usuário';
+  }
+
+  @Get()
+  findAll(@Query() query: ListAllEntities) {
+    return `Esta ação retorna todos os usuários (limit: ${query.limit} items)`;
+  }
+
+  @Get(':id')
+  fisOne(@Param('id') id: string) {
+    return `Esta ação retorna o usuário #${id}`;
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return `Esta ação atualiza o usuário #${id}`;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return `Esta ação remove o usuário #${id}`;
+  }
+}
+```
+
+> DICA
+> O Nest CLI fornece um gerador (esquema) que gera automaticamente todo o código boilerplate para nos ajudar a evitar fazer tudo isso e tornar a experiência do desenvolvedor muito mais simples.
+
+## Começando e funcionando
+
+Com o controller acima totalmente definido, o Nest ainda não sabe que o mesmo existe, e como resultado, não criará um instância dessa classe.
+
+Os controllers sempre pertencem a um módulo, e é por isso que incluímos o array `controllers` dentro do decorator `@Module()`. Como ainda não definido definido nenhum outro módulo, exceto o root `AppModule`, usaremos isso para introduzir o `UsersController`.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { UsersController } from './users/users.controller';
+
+@Module({
+  controllers: [ UsersController ]
+})
+export class AppModule {}
+```
+
+Anexamos os metadados à classe do módulo usando o decorator `@Modulo()`, e o Nest agora pode refletir facilmente quais controllers precisam ser montados.
+
+## Abordágem específica da bibilioteca
+
+Até agora discutimos a maneira padrão do Nest de manipular respostas. A segunda maneira é usar um object response específico da biblioteca. Para injeta-lo, precisamos user o decorator `@Res()`. Para mostrar as diferenças, vamos reescrever o `UsersController` para o seguinte:
+
+```typescript
+import { Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
+
+@Controller('users')
+export class UsersController {
+  @Post()
+  create(@Res() res: Response) {
+    res.status(HttpStatus.CREATED).send();
+  }
+
+  @Get()
+  findAll(@Res() res: Response) {
+    res.status(HttpStatus.OK).json([]);
+  }
+}
+```
+
+Embora  assa abordagem funcione e de fato permita mais flexibilidade qm alguns aspectos fornecendo controle total do object response (manipulação de cabeçalho, recursos específicos da biblioteca e assim por diante), ela deve ser usada com cuidado. Em geral, a abordagem é muito menos clara e tem algumas desvantagens. A principal é que seu código se torna dependente da plataforma (já que as bibliotecas subjacentes podem ter APIs diferentes no object resposta) e mais difícil de testar (você terá que simular o object responce, etc).
+
+Além disso, no exemplo acima, você perde a compatibilidade com os recursos do Nest que depende do tratamento de resposta padrão do mesmo, como o Interceptor e decorators `@HttpCode()`/`@Header()`. Para corrigir isso, você pode definir a `passthrough` opção como `true`, como no exemplo:
+
+```typescript
+@Get()
+findAll(@Res({ passthrough: true }) res: Response) {
+  res.status(HttpStatus.OK);
+  return [];
+}
+```
+
+Agora você pode interagir com o object response nativo (por exemplo, definir cookies ou cabeçalhos dependendo de certas condições), mas deixe o resto para o framework.
+
 ---
 [<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
