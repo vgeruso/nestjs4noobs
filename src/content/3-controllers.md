@@ -213,6 +213,8 @@ async findAll(): Promise<any[]> {
 
 O código acima é totalmente válido. Além disso, os manipuladores de rota do Nest são ainda mais poderosos por serem capazes de retornar fluxos observáveis RxJS. O Nest assinará automaticamente a fonte abaixo e pegará o último valor emitido (assim que o fluxo for concluído).
 
+> O RxJS é uma biblioteca para composiÇão de programas assincornos e baseados em eventos usando sequência observáveis. saiba mais na [documanetação oficial](https://rxjs.dev/guide/overview)
+
 ```typescript
 @Get()
 findAll(): Observable<any[]> {
@@ -226,7 +228,7 @@ Ambas as abordagens acima funcionam e podem ser usadas de forma que melhor se ad
 
 No exemplo anterior do manipulador de rota `POST` não recebeu nenhum parâmetro de cliente. Vamos consertar isso adicionando o decorator `@Body()`.
 
-Ma primeiro (Se usar o TypeScript), pricisa-se determinar o DTO (Data Transfer Object). Um DTO é um objeto que define como os dados serão enviados pela rede. Poderíamos determinar o DTO usando interfaces TS ou por classes simples. Curiosamente é recomendado usar classes. Pos as classes são parte do padrão JS ES6 e, portanto, são preservadas como entidades reais na compilação. Por outro lado, como as interfaces TypeScript são removidas durante a transpilação, o Nest não pode se referir a elas em tempo de execução. Isso é importante porque recursos como Pipes permitem possibilidades adicionais quando tem acesso ao metatipo da varável em tempo de execução.
+Vamos usar o TypeScript para determinar o DTO (Data Transfer Object). Um DTO é um objeto que define como os dados serão enviados pela rede. Poderíamos determinar o DTO usando interfaces TS ou por classes simples, curiosamente é recomendado usar classes por serem parte do padrão JS ES6 e, portanto, são preservadas como entidades reais na compilação. Por outro lado, como as interfaces TypeScript são removidas durante a transpilação, o Nest não pode se referir a elas em tempo de execução. Isso é importante porque recursos como Pipes permitem possibilidades adicionais quando tem acesso ao metatipo da variável em tempo de execução.
 
 Criando a classe `CreateUserDto`:
 
@@ -250,7 +252,7 @@ async create(@Body() createUserDto: CreateUserDto) {
 
 ## Exemplo completo do controller
 
-Abaixo está um exemplo completo de um controller que faz uso de vários decorators disponíveis na pinlioteca base do Nest. Este controller expõe alguns métodos para acessar e manipular dados internos.
+Abaixo está um exemplo completo de um controller que faz uso de vários decorators disponíveis na biblioteca base do Nest. Este controller expõe alguns métodos para acessar e manipular dados internos.
 
 ```typescript
 import { Controller, Get, Query, Post, Body, Put, Param, Delete } from '@nestjs/common';
@@ -260,7 +262,7 @@ import { CreateUserDto, UpdateUserDto, ListAllEntities } from './dto';
 export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return 'Esta aÇ~ao adiciona um novo usuário';
+    return 'Esta ação adiciona um novo usuário';
   }
 
   @Get()
@@ -269,7 +271,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  fisOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string) {
     return `Esta ação retorna o usuário #${id}`;
   }
 
@@ -290,9 +292,9 @@ export class UsersController {
 
 ## Começando e funcionando
 
-Com o controller acima totalmente definido, o Nest ainda não sabe que o mesmo existe, e como resultado, não criará um instância dessa classe.
+Com o controller acima totalmente definido, o Nest ainda não sabe que o mesmo existe, e como resultado, não criará uma instância dessa classe.
 
-Os controllers sempre pertencem a um módulo, e é por isso que incluímos o array `controllers` dentro do decorator `@Module()`. Como ainda não definido definido nenhum outro módulo, exceto o root `AppModule`, usaremos isso para introduzir o `UsersController`.
+Os controllers sempre pertencem a um módulo, e é por isso que incluímos o array `controllers` dentro do decorator `@Module()`. Como ainda não foi definido nenhum outro módulo, exceto o root `AppModule`, usaremos isso para introduzir o `UsersController`.
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -306,9 +308,9 @@ export class AppModule {}
 
 Anexamos os metadados à classe do módulo usando o decorator `@Modulo()`, e o Nest agora pode refletir facilmente quais controllers precisam ser montados.
 
-## Abordágem específica da bibilioteca
+## Abordagem específica da bibilioteca
 
-Até agora discutimos a maneira padrão do Nest de manipular respostas. A segunda maneira é usar um object response específico da biblioteca. Para injeta-lo, precisamos user o decorator `@Res()`. Para mostrar as diferenças, vamos reescrever o `UsersController` para o seguinte:
+Até agora discutimos a maneira padrão do Nest de manipular respostas. A segunda maneira é usar um object response específico da biblioteca. Para injetá-lo, precisamos usar o decorator `@Res()`. Para mostrar as diferenças, vamos reescrever o `UsersController` para o seguinte:
 
 ```typescript
 import { Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
@@ -328,9 +330,10 @@ export class UsersController {
 }
 ```
 
-Embora  assa abordagem funcione e de fato permita mais flexibilidade qm alguns aspectos fornecendo controle total do object response (manipulação de cabeçalho, recursos específicos da biblioteca e assim por diante), ela deve ser usada com cuidado. Em geral, a abordagem é muito menos clara e tem algumas desvantagens. A principal é que seu código se torna dependente da plataforma (já que as bibliotecas subjacentes podem ter APIs diferentes no object resposta) e mais difícil de testar (você terá que simular o object responce, etc).
+Embora  essa abordagem funcione e de fato permita mais flexibilidade em alguns aspectos fornecendo controle total do object response (manipulação de cabeçalho, recursos específicos da biblioteca e assim por diante), ela deve ser usada com cuidado. Em geral, a abordagem é muito menos clara e tem algumas desvantagens. A principal é que seu código se torna dependente da plataforma (já que as bibliotecas subjacentes podem ter APIs diferentes no object resposta) e mais difícil de testar (você terá que simular o object response, etc).
 
 Além disso, no exemplo acima, você perde a compatibilidade com os recursos do Nest que depende do tratamento de resposta padrão do mesmo, como o Interceptor e decorators `@HttpCode()`/`@Header()`. Para corrigir isso, você pode definir a `passthrough` opção como `true`, como no exemplo:
+
 
 ```typescript
 @Get()
@@ -339,6 +342,8 @@ findAll(@Res({ passthrough: true }) res: Response) {
   return [];
 }
 ```
+
+> Quando você define a opção { passthrough: true }, isso significa que quer usar o objeto de resposta (res) para configurar parte da resposta (por exemplo, o status), mas deseja que o framework NestJS continue cuidando da parte de retorno da resposta.
 
 Agora você pode interagir com o object response nativo (por exemplo, definir cookies ou cabeçalhos dependendo de certas condições), mas deixe o resto para o framework.
 
