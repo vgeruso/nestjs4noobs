@@ -334,7 +334,6 @@ Embora  essa abordagem funcione e de fato permita mais flexibilidade em alguns a
 
 Além disso, no exemplo acima, você perde a compatibilidade com os recursos do Nest que depende do tratamento de resposta padrão do mesmo, como o Interceptor e decorators `@HttpCode()`/`@Header()`. Para corrigir isso, você pode definir a `passthrough` opção como `true`, como no exemplo:
 
-
 ```typescript
 @Get()
 findAll(@Res({ passthrough: true }) res: Response) {
