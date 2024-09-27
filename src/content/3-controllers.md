@@ -198,5 +198,153 @@ export class AccountController {
 }
 ```
 
+## Assincronicidade
+
+No JavaScript moderno a extração de dados é, em sua maioria, assíncrona. É por isso que o Nest suporta e funciona bem com funções `async`.
+
+Toda função async tem que retornar uma `Promise`. Isso significa que pode retornar um valor diferido que o Nest será capaz de resolver sozinho. Vamos ver um exemplo disso:
+
+```typescript
+@Get()
+async findAll(): Promise<any[]> {
+  return [];
+}
+```
+
+O código acima é totalmente válido. Além disso, os manipuladores de rota do Nest são ainda mais poderosos por serem capazes de retornar fluxos observáveis RxJS. O Nest assinará automaticamente a fonte abaixo e pegará o último valor emitido (assim que o fluxo for concluído).
+
+> O RxJS é uma biblioteca para composiÇão de programas assincornos e baseados em eventos usando sequência observáveis. saiba mais na [documanetação oficial](https://rxjs.dev/guide/overview)
+
+```typescript
+@Get()
+findAll(): Observable<any[]> {
+  return of([]);
+}
+```
+
+Ambas as abordagens acima funcionam e podem ser usadas de forma que melhor se adequem às necessidades do projeto.
+
+## Solicitação de payloads
+
+No exemplo anterior do manipulador de rota `POST` não recebeu nenhum parâmetro de cliente. Vamos consertar isso adicionando o decorator `@Body()`.
+
+Vamos usar o TypeScript para determinar o DTO (Data Transfer Object). Um DTO é um objeto que define como os dados serão enviados pela rede. Poderíamos determinar o DTO usando interfaces TS ou por classes simples, curiosamente é recomendado usar classes por serem parte do padrão JS ES6 e, portanto, são preservadas como entidades reais na compilação. Por outro lado, como as interfaces TypeScript são removidas durante a transpilação, o Nest não pode se referir a elas em tempo de execução. Isso é importante porque recursos como Pipes permitem possibilidades adicionais quando tem acesso ao metatipo da variável em tempo de execução.
+
+Criando a classe `CreateUserDto`:
+
+```typescript
+export class CreateUserDto {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+}
+```
+
+Ela tem apenas 4 propriedades básicas. Depois disso, pode-se usar o DTO recém-criado dentro do `UserController`:
+
+```typescript
+@Post()
+async create(@Body() createUserDto: CreateUserDto) {
+  return `Essa ação adiciona o usuário: ${createtUserDto.name}`
+}
+```
+
+## Exemplo completo do controller
+
+Abaixo está um exemplo completo de um controller que faz uso de vários decorators disponíveis na biblioteca base do Nest. Este controller expõe alguns métodos para acessar e manipular dados internos.
+
+```typescript
+import { Controller, Get, Query, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto, ListAllEntities } from './dto';
+
+@Controller('users')
+export class UsersController {
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return 'Esta ação adiciona um novo usuário';
+  }
+
+  @Get()
+  findAll(@Query() query: ListAllEntities) {
+    return `Esta ação retorna todos os usuários (limit: ${query.limit} items)`;
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return `Esta ação retorna o usuário #${id}`;
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return `Esta ação atualiza o usuário #${id}`;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return `Esta ação remove o usuário #${id}`;
+  }
+}
+```
+
+> DICA
+> O Nest CLI fornece um gerador (esquema) que gera automaticamente todo o código boilerplate para nos ajudar a evitar fazer tudo isso e tornar a experiência do desenvolvedor muito mais simples.
+
+## Começando e funcionando
+
+Com o controller acima totalmente definido, o Nest ainda não sabe que o mesmo existe, e como resultado, não criará uma instância dessa classe.
+
+Os controllers sempre pertencem a um módulo, e é por isso que incluímos o array `controllers` dentro do decorator `@Module()`. Como ainda não foi definido nenhum outro módulo, exceto o root `AppModule`, usaremos isso para introduzir o `UsersController`.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { UsersController } from './users/users.controller';
+
+@Module({
+  controllers: [ UsersController ]
+})
+export class AppModule {}
+```
+
+Anexamos os metadados à classe do módulo usando o decorator `@Modulo()`, e o Nest agora pode refletir facilmente quais controllers precisam ser montados.
+
+## Abordagem específica da bibilioteca
+
+Até agora discutimos a maneira padrão do Nest de manipular respostas. A segunda maneira é usar um object response específico da biblioteca. Para injetá-lo, precisamos usar o decorator `@Res()`. Para mostrar as diferenças, vamos reescrever o `UsersController` para o seguinte:
+
+```typescript
+import { Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
+
+@Controller('users')
+export class UsersController {
+  @Post()
+  create(@Res() res: Response) {
+    res.status(HttpStatus.CREATED).send();
+  }
+
+  @Get()
+  findAll(@Res() res: Response) {
+    res.status(HttpStatus.OK).json([]);
+  }
+}
+```
+
+Embora  essa abordagem funcione e de fato permita mais flexibilidade em alguns aspectos fornecendo controle total do object response (manipulação de cabeçalho, recursos específicos da biblioteca e assim por diante), ela deve ser usada com cuidado. Em geral, a abordagem é muito menos clara e tem algumas desvantagens. A principal é que seu código se torna dependente da plataforma (já que as bibliotecas subjacentes podem ter APIs diferentes no object resposta) e mais difícil de testar (você terá que simular o object response, etc).
+
+Além disso, no exemplo acima, você perde a compatibilidade com os recursos do Nest que depende do tratamento de resposta padrão do mesmo, como o Interceptor e decorators `@HttpCode()`/`@Header()`. Para corrigir isso, você pode definir a `passthrough` opção como `true`, como no exemplo:
+
+```typescript
+@Get()
+findAll(@Res({ passthrough: true }) res: Response) {
+  res.status(HttpStatus.OK);
+  return [];
+}
+```
+
+> Quando você define a opção { passthrough: true }, isso significa que quer usar o objeto de resposta (res) para configurar parte da resposta (por exemplo, o status), mas deseja que o framework NestJS continue cuidando da parte de retorno da resposta.
+
+Agora você pode interagir com o object response nativo (por exemplo, definir cookies ou cabeçalhos dependendo de certas condições), mas deixe o resto para o framework.
+
 ---
-[<< Anterior](./2-primeiros-passos.md) [Próximo >>](./3-controllers.md.md)
+[<< Anterior](./2-primeiros-passos.md)
