@@ -47,13 +47,14 @@ Contribuições faz com que a comunidade cresça cada vez mais e seja um lugar i
 4. Realize o push na branch (`git push origin feature/sua-feature`)
 5. Abra um Pull Request
 
-## Autor
+## Autores
 
-- **Victor Geruso Gomes** - _Engenheiro de Software [Dev Backend]_ - **[Bluesky](https://bsky.app/profile/geruso.com) / [Linkedin](https://www.linkedin.com/in/victor-geruso-gomes-654a8111a/)**
+- **[Victor Geruso Gomes](https://github.com/vgeruso)** - _[Dev Backend]_ - **[Bluesky](https://bsky.app/profile/geruso.com) / [Linkedin](https://www.linkedin.com/in/victor-geruso-gomes-654a8111a/)**
 
 ## Contribuidores
 
-- **João Vitor De Jesus Oliveira** - _Estudante de Análise e Desenvolvimento de Sistemas [Dev PHP]_ - **[Linkedin](https://www.linkedin.com/in/joaovitordejesusoliveira/)**
+- **[João Vitor](https://github.com/joaovjo)** - _[Dev Backend]_ - **[Bluesky](https://bsky.app/profile/joaovjo.bsky.social) / [Linkedin](https://www.linkedin.com/in/joaovitordejesusoliveira/)**
+- **[Matheus Costa](https://github.com/MatheusCoxxxta)** - _[Dev Backend]_ - **[Bluesky](https://bsky.app/profile/omatheuscosta.bsky.social)**
 
 ---
 
