@@ -54,7 +54,7 @@ Contribuições faz com que a comunidade cresça cada vez mais e seja um lugar i
 ## Contribuidores
 
 - **[João Vitor](https://github.com/joaovjo)** - _[Dev Backend]_ - **[Bluesky](https://bsky.app/profile/joaovjo.bsky.social) / [Linkedin](https://www.linkedin.com/in/joaovitordejesusoliveira/)**
-- **[Matheus Costa](https://github.com/MatheusCoxxxta)** - _[Dev Backend]_ - **[Bluesky](https://bsky.app/profile/omatheuscosta.bsky.social)**
+- **[Matheus Costa](https://github.com/MatheusCoxxxta)** - _[Dev Backend]_ - **[Bluesky](https://bsky.app/profile/omatheuscosta.bsky.social) / [Linkedin](https://www.linkedin.com/in/omatheus-costa/)**
 
 ---
 
